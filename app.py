@@ -6,45 +6,50 @@ from reportlab.lib.pagesizes import A4
 from datetime import datetime
 
 # --- CONFIGURAÇÃO ---
-SENHA_ACESSO = "estudante2024"  # Altere sua senha aqui
-ARQUIVO_QUESTOES = "questoes.pdf" # O nome do seu PDF no GitHub
+SENHA_ACESSO = "estudante2024"  # Altere sua senha aqui se desejar
+ARQUIVO_QUESTOES = "questoes.pdf" # Certifique-se que o nome no GitHub seja igual a este
 
 def gerar_prova_estudante(matricula):
     try:
-        # 1. Tenta ler o PDF original que você subiu no GitHub
+        # 1. Ler o PDF original das questões
         leitor_questoes = PdfReader(ARQUIVO_QUESTOES)
         escritor_final = PdfWriter()
         agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         
-        # 2. Processa cada página do PDF original
+        # 2. Processar cada página
         for num_pagina in range(len(leitor_questoes.pages)):
             pagina_original = leitor_questoes.pages[num_pagina]
             
-            # Criar o "carimbo" com a matrícula em memória
+            # Criar o "carimbo" em memória
             packet = io.BytesIO()
             can = canvas.Canvas(packet, pagesize=A4)
+            largura, altura = A4
             
-            # Personalize a posição aqui (x=50, y=810 é no topo esquerdo)
+            # --- Ajuste para o Lado Direito ---
+            # Usamos 545 para deixar uma margem de 50 pontos da borda direita
             can.setFont("Helvetica-Bold", 11)
-            can.drawString(50, 810, f"ESTUDANTE: {matricula}")
+            can.drawRightString(545, 810, f"ESTUDANTE: {matricula}")
+            
             can.setFont("Helvetica", 8)
-            can.drawString(50, 800, f"Gerado em: {agora} | Página {num_pagina + 1}")
+            can.drawRightString(545, 800, f"Gerado em: {agora} | Página {num_pagina + 1}")
+            # ----------------------------------
+            
             can.save()
             
             packet.seek(0)
             novo_pdf_cabecalho = PdfReader(packet)
             
-            # Mescla o carimbo na página original
+            # Mescla o cabeçalho na página original
             pagina_original.merge_page(novo_pdf_cabecalho.pages[0])
             escritor_final.add_page(pagina_original)
 
-        # 3. Prepara o arquivo final para download
+        # 3. Gerar o arquivo final
         output = io.BytesIO()
         escritor_final.write(output)
         output.seek(0)
         return output
     except Exception as e:
-        st.error(f"Erro ao ler o arquivo {ARQUIVO_QUESTOES}. Verifique se ele foi enviado ao GitHub.")
+        st.error(f"Erro: Certifique-se que o arquivo '{ARQUIVO_QUESTOES}' está no GitHub.")
         return None
 
 # --- INTERFACE WEB (Streamlit) ---
@@ -54,7 +59,7 @@ st.title("📝 Gerador de Prova Personalizada")
 senha = st.text_input("Senha da Turma:", type="password")
 
 if senha == SENHA_ACESSO:
-    matricula = st.text_input("Digite sua Matrícula para começar:")
+    matricula = st.text_input("Digite sua Matrícula:")
     
     if st.button("Gerar meu PDF"):
         if matricula:
@@ -63,7 +68,7 @@ if senha == SENHA_ACESSO:
                 if pdf_final:
                     st.success("Tudo pronto!")
                     st.download_button(
-                        label="⬇️ Baixar Prova com meu Nome/Matrícula",
+                        label="⬇️ Baixar Prova Personalizada",
                         data=pdf_final,
                         file_name=f"prova_{matricula}.pdf",
                         mime="application/pdf"
