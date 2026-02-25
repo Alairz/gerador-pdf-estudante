@@ -54,12 +54,12 @@ def gerar_prova_estudante(matricula):
 st.set_page_config(page_title="Portal de Provas", page_icon="📝")
 st.title("📝 Gerador de Prova Personalizada")
 
-senha = st.text_input("Senha da Turma:", type="password")
+senha = st.text_input("Senha de Acesso:", type="password")
 
 if senha == SENHA_ACESSO:
     matricula = st.text_input("Digite sua Matrícula:")
     
-    if st.button("Gerar meu PDF"):
+    if st.button("Gerar minha Prova (PDF)"):
         if matricula:
             with st.spinner('Processando seu arquivo...'):
                 pdf_final = gerar_prova_estudante(matricula)
