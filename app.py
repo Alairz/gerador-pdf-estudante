@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import A4
 from datetime import datetime
 
 # --- CONFIGURAÇÃO ---
-SENHA_ACESSO = "estudante2024"  # Altere sua senha aqui
+SENHA_ACESSO = "estudante"  # Altere sua senha aqui
 ARQUIVO_QUESTOES = "questoes.pdf" # Nome do arquivo no seu GitHub
 
 def gerar_prova_estudante(matricula):
