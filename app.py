@@ -79,7 +79,7 @@ else:
     if senha == SENHA_ACESSO:
         matricula = st.text_input("Digite sua Matrícula para começar:")
         
-        if st.button("Gerar meu Exame Final em PDF"):
+        if st.button("Gerar minha Prova em PDF"):
             if matricula:
                 with st.spinner('Preparando sua prova personalizada...'):
                     pdf_final = gerar_prova_estudante(matricula)
