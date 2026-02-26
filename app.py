@@ -13,9 +13,9 @@ ARQUIVO_QUESTOES = "questoes.pdf"
 # --- DEFINIÇÃO DO PERÍODO DE USO (Horário de Brasília) ---
 fuso_brasil = pytz.timezone('America/Sao_Paulo')
 # Data Início: 27/02/2026 às 13:00
-DATA_INICIO = datetime(2026, 2, 26, 13, 0, 0, tzinfo=fuso_brasil)
+DATA_INICIO = datetime(2026, 2, 27, 13, 0, 0, tzinfo=fuso_brasil)
 # Data Fim: 05/03/2026 às 08:00
-DATA_FIM = datetime(2026, 3, 5, 9, 0, 0, tzinfo=fuso_brasil)
+DATA_FIM = datetime(2026, 3, 4, 23, 59, 59, tzinfo=fuso_brasil)
 
 def gerar_prova_estudante(matricula):
     try:
