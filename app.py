@@ -74,12 +74,12 @@ elif agora_atual > DATA_FIM:
 
 else:
     # SE ESTIVER DENTRO DO PRAZO: Mostra campos de Senha e Matrícula
-    senha = st.text_input("Senha da Turma:", type="password")
+    senha = st.text_input("Senha de Acesso:", type="password")
     
     if senha == SENHA_ACESSO:
         matricula = st.text_input("Digite sua Matrícula para começar:")
         
-        if st.button("Gerar meu PDF"):
+        if st.button("Gerar meu Exame Final em PDF"):
             if matricula:
                 with st.spinner('Preparando sua prova personalizada...'):
                     pdf_final = gerar_prova_estudante(matricula)
