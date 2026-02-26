@@ -7,7 +7,7 @@ from datetime import datetime
 import pytz
 
 # --- CONFIGURAÇÃO INICIAL ---
-SENHA_ACESSO = "EXAME-FINAL"
+SENHA_ACESSO = "examefinal"
 ARQUIVO_QUESTOES = "questoes.pdf"
 
 # --- DEFINIÇÃO DO PERÍODO DE USO (Horário de Brasília) ---
