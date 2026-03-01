@@ -7,7 +7,7 @@ from datetime import datetime
 import pytz
 
 # --- CONFIGURAÇÃO INICIAL ---
-SENHA_ACESSO = "examefinal"
+SENHA_ACESSO = "estudante2024"
 ARQUIVO_QUESTOES = "questoes.pdf"
 
 # --- DEFINIÇÃO DO PERÍODO DE USO (Horário de Brasília) ---
@@ -17,7 +17,7 @@ DATA_FIM = datetime(2026, 3, 5, 8, 0, 0, tzinfo=fuso_brasil)
 
 def gerar_prova_estudante(matricula):
     try:
-        # REGISTRO DE LOG
+        # REGISTRO DE LOG NO SERVIDOR
         agora_brasil = datetime.now(fuso_brasil)
         hora_formatada = agora_brasil.strftime('%H:%M:%S')
         data_formatada = agora_brasil.strftime('%d/%m/%Y')
@@ -51,8 +51,8 @@ def gerar_prova_estudante(matricula):
         output.seek(0)
         return output
     except Exception as e:
-        st.error(f"Erro tecnico: Verifique o arquivo no GitHub.")
-        print(f"--- [ERRO] Falha: {e} ---")
+        print(f"--- [ERRO] Falha ao gerar PDF: {e} ---")
+        st.error(f"Erro técnico ao processar o arquivo.")
         return None
 
 # --- INTERFACE DO SITE ---
@@ -62,7 +62,7 @@ st.title("📝 Gerador de Prova Personalizada")
 agora_atual = datetime.now(fuso_brasil)
 
 if agora_atual < DATA_INICIO:
-    st.warning(f"⏳ O sistema ainda não está aberto. Início: {DATA_INICIO.strftime('%d/%m/%Y às %H:%M')}.")
+    st.warning(f"⏳ O sistema ainda não está aberto. A geração de provas começará em {DATA_INICIO.strftime('%d/%m/%Y às %H:%M')}.")
 elif agora_atual > DATA_FIM:
     st.error(f"🚫 O prazo para geração de provas encerrou em {DATA_FIM.strftime('%d/%m/%Y às %H:%M')}.")
 else:
@@ -73,10 +73,10 @@ else:
         
         if st.button("Gerar meu PDF"):
             if matricula:
-                with st.spinner('Preparando seu PDF...'):
+                with st.spinner('Preparando seu PDF personalizado...'):
                     pdf_final = gerar_prova_estudante(matricula)
                     if pdf_final:
-                        st.success("Tudo pronto!")
+                        st.success("Tudo pronto! Seu PDF foi gerado.")
                         st.download_button(
                             label="⬇️ Baixar Prova Personalizada",
                             data=pdf_final,
